@@ -6,50 +6,56 @@
 用于构建用户界面的 JavaScript 库，由facebook开发的且开源的
 ```
 
+### react关键库
+```
+1.react.js：React核心库。
+
+2.react-dom.js：提供操作DOM的react扩展库。
+
+3.babel.min.js：解析JSX语法代码转为JS代码的库。浏览器不能直接解析JSX代码, 需要babel转译为纯JS的代码才能运行
+```
+
 ### 原生javascript操作dom
 ![](image/微信截图_20220125214207.png)
 
 ### 原生dom开发的痛点
 ![](./image/微信截图_20220125195622.png)
 
+```
+不管是原始dom-api很繁琐，后面jquery也只是使得代码量减少了些，但都是直接操作原始dom，导致重绘重排。
+```
+
 ### 为何要使用React(React 的特点)
 ![](image/微信截图_20220125214044.png)
 
-### react关键库
-```
-1.react.js：React核心库。
-2.react-dom.js：提供操作DOM的react扩展库。
-3.babel.min.js：解析JSX语法代码转为JS代码的库。
-```
-
-### babel.js的作用
-```
-1 浏览器不能直接解析JSX代码, 需要babel转译为纯JS的代码才能运行
-2 只要用了JSX，都要加上type="text/babel", 声明需要babel来处理
-```
-
 ### 虚拟DOM与真实DOM
 ```
-1.React提供了一些API来创建一种 “特别” 的一般js对象
- const VDOM = React.createElement('xx',{id:'xx'},'xx')
- 上面创建的就是一个简单的虚拟DOM对象
-2.虚拟DOM对象最终都会被React转换为真实的DOM
-我们编码时基本只需要操作react的虚拟DOM相关数据, react会转换为真实DOM变化而更新界。
-```
+1.React提供了一些API来创建一种 “特别” 的普通js对象，叫做虚拟DOM对象
+ const VDOM = React.createElement('标签名字',{id:'标签属性'},'标签的children')
 
-### 原生js操作dom原理
+2.虚拟DOM对象最终都会被React转换为真实的DOM
+
+3.我们编码时基本只需要操作react的虚拟DOM相关数据, react会转换为真实DOM变化而更新界。
+```
+### 原生js直接操作dom来更新视图原理
 ![](./image/微信截图_20220125202434.png)
 
-### react的操作dom原理
-![](./image/微信截图_20220125202531.png)
+```
+只是更新一个名字，也是对整个列表的全部替换，一个也没有复用
+```
 
+### react操作虚拟dom对象来更新视图原理
+![](./image/微信截图_20220125202531.png)
+```
+对两次虚拟dom进行比较,复用旧的dom，生成新的dom，然后再渲染处理
+```
 ### 创建虚拟DOM的两种方式
 ```
 1.纯JS方式(一般不用)
 2.JSX方式
 ```
 
-### react jsx实现
+#### react jsx实现
 ``` js 
 <!DOCTYPE html>
 <html lang="en">
@@ -82,7 +88,7 @@
 </html>
 ```
 
-### react js 实现
+#### react js 实现
 ``` js
 <!DOCTYPE html>
 <html lang="en">
@@ -109,7 +115,7 @@
 </html>
 ```
 
-#### 对应的html
+#### 在网页上观察此html
 ![](image/微信截图_20220125203308.png)
 
 #### 大概看看 虚拟dom的真面目
@@ -137,19 +143,12 @@
 	1)写法：var ele = <h1>Hello JSX!</h1>
 	2)注意1：它不是字符串, 也不是HTML/XML标签
 	3)注意2：它最终产生的就是一个JS对象
-
-4.jsx语法规则：
-	1.定义虚拟DOM时，不要写引号。
-	2.标签中混入JS表达式时要用{}。
-	3.样式的类名指定不要用class，要用className。
-	4.内联样式，要用style={{key:value}}的形式去写。
-	5.只有一个根标签
-	6.标签必须闭合
-	7.标签首字母
-			(1).若小写字母开头，则将该标签转为html中同名元素，若html中无该标签对应的同名元素，则报错。
-			(2).若大写字母开头，react就去渲染对应的组件，若组件没有定义，则报错。
 ```
-#### 参考jsx实现
+
+#### jsx 转化过程
+![](image/screenshot-20220126-105736.png)
+
+#### 参考：jsx语法代码
 ``` js 
 	<script type="text/babel" >
 		const myId = 'aTgUiGu'
@@ -172,3 +171,7 @@
 		ReactDOM.render(VDOM,document.getElementById('test'))
 	</script>
 ```
+
+
+### 参考：diff算法流程
+![](image/screenshot-20220126-101951.png)
